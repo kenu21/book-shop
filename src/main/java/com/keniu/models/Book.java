@@ -1,10 +1,11 @@
 package com.keniu.models;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
 import java.math.BigDecimal;
 
 /**
@@ -19,20 +20,24 @@ public class Book {
     private Long id;
 
     /** The title of the book. */
-    @NotNull
+    @NotBlank
+    @Column(nullable = false)
     private String title;
 
     /** The author of the book. */
-    @NotNull
+    @NotBlank
+    @Column(nullable = false)
     private String author;
 
     /** The ISBN of the book, which should be unique. */
-    @NotNull
+    @NotBlank
+    @Column(nullable = false)
     // todo add unique annotation
     private String isbn;
 
     /** The price of the book. */
-    @NotNull
+    @NotBlank
+    @Column(nullable = false)
     private BigDecimal price;
 
     /** A brief description of the book. */
