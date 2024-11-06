@@ -1,7 +1,7 @@
 package com.keniu.controllers;
 
-import com.keniu.dtos.BookDto;
-import com.keniu.dtos.CreateBookRequestDto;
+import com.keniu.dto.BookDto;
+import com.keniu.dto.CreateBookRequestDto;
 import com.keniu.services.BookService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RequiredArgsConstructor
 @RestController
-@RequestMapping(value = "/books")
+@RequestMapping("/books")
 public class BookController {
     private final BookService bookService;
 

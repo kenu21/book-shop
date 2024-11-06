@@ -1,7 +1,7 @@
 package com.keniu.services;
 
-import com.keniu.dtos.BookDto;
-import com.keniu.dtos.CreateBookRequestDto;
+import com.keniu.dto.BookDto;
+import com.keniu.dto.CreateBookRequestDto;
 import com.keniu.exceptions.EntityNotFoundException;
 import com.keniu.mappers.BookMapper;
 import com.keniu.repositories.BookRepository;

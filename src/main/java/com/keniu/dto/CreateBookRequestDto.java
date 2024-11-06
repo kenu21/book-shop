@@ -1,4 +1,4 @@
-package com.keniu.dtos;
+package com.keniu.dto;
 
 import java.math.BigDecimal;
 import lombok.Data;

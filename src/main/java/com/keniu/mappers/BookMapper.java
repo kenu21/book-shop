@@ -1,8 +1,8 @@
 package com.keniu.mappers;
 
 import com.keniu.config.MapperConfig;
-import com.keniu.dtos.BookDto;
-import com.keniu.dtos.CreateBookRequestDto;
+import com.keniu.dto.BookDto;
+import com.keniu.dto.CreateBookRequestDto;
 import com.keniu.models.Book;
 import org.mapstruct.Mapper;
 
