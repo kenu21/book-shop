@@ -1,6 +1,6 @@
 package com.keniu.repositories;
 
-import com.keniu.exceptions.EntityNotFoundException;
+import com.keniu.exceptions.DataProcessingException;
 import com.keniu.models.Book;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -29,7 +29,7 @@ public class BookRepositoryImpl implements BookRepository {
             if (entityTransaction != null) {
                 entityTransaction.rollback();
             }
-            throw new EntityNotFoundException("Can't save book " + book);
+            throw new DataProcessingException("Can't save book " + book);
         } finally {
             if (entityManager != null) {
                 entityManager.close();
@@ -42,7 +42,7 @@ public class BookRepositoryImpl implements BookRepository {
         try (EntityManager entityManager = entityManagerFactory.createEntityManager()) {
             return entityManager.createQuery("FROM book", Book.class).getResultList();
         } catch (Exception e) {
-            throw new EntityNotFoundException("Can't get books");
+            throw new DataProcessingException("Can't get books");
         }
     }
 
@@ -51,7 +51,7 @@ public class BookRepositoryImpl implements BookRepository {
         try (EntityManager entityManager = entityManagerFactory.createEntityManager()) {
             return Optional.ofNullable(entityManager.find(Book.class, id));
         } catch (Exception e) {
-            throw new EntityNotFoundException("can't get book with id " + id);
+            throw new DataProcessingException("can't get book with id " + id);
         }
     }
 }
