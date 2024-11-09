@@ -5,10 +5,12 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.SQLDelete;
 
@@ -18,7 +20,9 @@ import org.hibernate.annotations.SQLDelete;
 @Entity
 @SQLDelete(sql = "UPDATE book SET is_deleted = true WHERE id=?")
 @Filter(name = "softDeleteFilter", condition = "is_deleted = false")
-@Data
+@Getter
+@Setter
+@Table(name = "books")
 public class Book {
 
     /** The unique identifier for the book. */

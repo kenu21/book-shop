@@ -34,5 +34,20 @@ public interface BookService {
      */
     BookDto getById(Long id);
 
+    /**
+     * Updates an existing book entity with new details.
+     *
+     * @param id the unique identifier of the book to be updated
+     * @param createBookRequestDto a {@link CreateBookRequestDto}
+     * containing the new details of the book
+     * @return an updated {@link BookDto} representing the updated book
+     */
     BookDto update(Long id, CreateBookRequestDto createBookRequestDto);
+
+    /**
+     * Deletes a book entity by its unique identifier.
+     *
+     * @param id the unique identifier of the book to be deleted
+     */
+    void deleteById(Long id);
 }
