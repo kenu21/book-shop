@@ -6,12 +6,19 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;
+import lombok.Data;
+import org.hibernate.annotations.Filter;
+import org.hibernate.annotations.SQLDelete;
 
 /**
  * Represents a book in the book shop application.
  */
 @Entity
+@SQLDelete(sql = "UPDATE book SET is_deleted = true WHERE id=?")
+@Filter(name = "softDeleteFilter", condition = "is_deleted = false")
+@Data
 public class Book {
 
     /** The unique identifier for the book. */
@@ -31,12 +38,11 @@ public class Book {
 
     /** The ISBN of the book, which should be unique. */
     @NotBlank
-    @Column(nullable = false)
-    // todo add unique annotation
+    @Column(nullable = false, unique = true)
     private String isbn;
 
     /** The price of the book. */
-    @NotBlank
+    @NotNull
     @Column(nullable = false)
     private BigDecimal price;
 
@@ -46,4 +52,7 @@ public class Book {
     /** The URL of the book's cover image. */
     private String coverImage;
 
+    /** Indicates if the book is marked as deleted (soft delete). */
+    @Column(nullable = false, columnDefinition = "TINYINT(1)")
+    private Boolean isDeleted = false;
 }

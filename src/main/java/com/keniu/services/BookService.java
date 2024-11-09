@@ -32,5 +32,7 @@ public interface BookService {
      * @param id the unique identifier of the book
      * @return a {@link BookDto} containing the details of the found book, or null if not found
      */
-    BookDto getBookById(Long id);
+    BookDto getById(Long id);
+
+    BookDto update(Long id, CreateBookRequestDto createBookRequestDto);
 }
