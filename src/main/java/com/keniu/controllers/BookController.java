@@ -3,6 +3,7 @@ package com.keniu.controllers;
 import com.keniu.dto.BookDto;
 import com.keniu.dto.CreateBookRequestDto;
 import com.keniu.services.BookService;
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -54,7 +55,7 @@ public class BookController {
      * @return a {@link BookDto} representing the created book
      */
     @PostMapping
-    public BookDto save(@RequestBody CreateBookRequestDto createBookRequestDto) {
+    public BookDto save(@Valid @RequestBody CreateBookRequestDto createBookRequestDto) {
         return bookService.save(createBookRequestDto);
     }
 
@@ -72,7 +73,7 @@ public class BookController {
      */
     @PutMapping("/{id}")
     public BookDto update(@PathVariable Long id,
-            @RequestBody CreateBookRequestDto createBookRequestDto) {
+            @ Valid @RequestBody CreateBookRequestDto createBookRequestDto) {
         return bookService.update(id, createBookRequestDto);
     }
 
