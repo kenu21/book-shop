@@ -5,6 +5,7 @@ import com.keniu.dto.BookDto;
 import com.keniu.dto.CreateBookRequestDto;
 import com.keniu.models.Book;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 /**
  * Mapper interface for converting between
@@ -27,5 +28,7 @@ public interface BookMapper {
      * @param createBookRequestDto the DTO containing data to create a new book
      * @return the newly created Book entity
      */
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "isDeleted", expression = "java(false)")
     Book toModel(CreateBookRequestDto createBookRequestDto);
 }
