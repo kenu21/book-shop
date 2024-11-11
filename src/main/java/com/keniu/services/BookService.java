@@ -4,6 +4,7 @@ import com.keniu.dto.BookDto;
 import com.keniu.dto.CreateBookRequestDto;
 import com.keniu.models.Book;
 import java.util.List;
+import org.springframework.data.domain.Pageable;
 
 /**
  * Service interface for managing {@link Book} entities.
@@ -24,7 +25,7 @@ public interface BookService {
      *
      * @return a list of {@link BookDto} representing all books
      */
-    List<BookDto> findAll();
+    List<BookDto> findAll(Pageable pageable);
 
     /**
      * Retrieves the details of a specific book by its unique identifier.
