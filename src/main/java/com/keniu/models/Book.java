@@ -8,6 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import java.math.BigDecimal;
 import lombok.Getter;
 import lombok.Setter;
@@ -32,16 +33,19 @@ public class Book {
 
     /** The title of the book. */
     @NotBlank
+    @Size(max = 255)
     @Column(nullable = false)
     private String title;
 
     /** The author of the book. */
     @NotBlank
+    @Size(max = 255)
     @Column(nullable = false)
     private String author;
 
     /** The ISBN of the book, which should be unique. */
     @NotBlank
+    @Size(max = 255)
     @Column(nullable = false, unique = true)
     private String isbn;
 
@@ -54,6 +58,7 @@ public class Book {
     private String description;
 
     /** The URL of the book's cover image. */
+    @Size(max = 255)
     private String coverImage;
 
     /** Indicates if the book is marked as deleted (soft delete). */
