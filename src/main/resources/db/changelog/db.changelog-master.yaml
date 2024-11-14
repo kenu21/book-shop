@@ -1,3 +1,5 @@
 databaseChangeLog:
   - include:
-      file: db/changelog/changes/08112024-create-book-table.yaml
+      file: db/changelog/changes/081120241623-create-book-table.yaml
+  - include:
+      file: db/changelog/changes/141120241528-create-user-table.yaml
