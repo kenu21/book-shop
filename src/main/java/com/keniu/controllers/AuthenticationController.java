@@ -32,7 +32,7 @@ public class AuthenticationController {
      */
     @Operation(summary = "User registration",
             description = "Register a new user in the book shop application.")
-    @PostMapping("/api/auth/registration")
+    @PostMapping("/registration")
     @ResponseStatus(HttpStatus.CREATED)
     public UserDto register(@Valid @RequestBody CreateUserRequestDto createUserRequestDto)
             throws RegistrationException {

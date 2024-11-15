@@ -32,7 +32,7 @@ public class User {
     /** The email address of the user, which should be unique. */
     @NotBlank
     @Column(nullable = false, unique = true)
-    @Size(max = 255)
+    @Size(min = 6, max = 255)
     private String email;
 
     /** The password of the user. */
