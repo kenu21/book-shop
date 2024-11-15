@@ -9,9 +9,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RequiredArgsConstructor
 @RestController
+@RequestMapping("/auth")
 @Tag(name = "User management", description = "Endpoints for managing users")
 public class AuthenticationController {
     private final UserService userService;
@@ -33,9 +34,8 @@ public class AuthenticationController {
      */
     @Operation(summary = "User registration",
             description = "Register a new user in the book shop application.")
-    @PostMapping("/api/auth/registration")
+    @PostMapping("/registration")
     @ResponseStatus(HttpStatus.CREATED)
-    @PreAuthorize("permitAll()")
     public UserDto register(@Valid @RequestBody CreateUserRequestDto createUserRequestDto)
             throws RegistrationException {
         return userService.save(createUserRequestDto);

@@ -36,13 +36,13 @@ public class User implements UserDetails {
     /** The email address of the user, which should be unique. */
     @NotBlank
     @Column(nullable = false, unique = true)
-    @Size(max = 255)
+    @Size(min = 6, max = 255)
     private String email;
 
     /** The password of the user. */
     @NotBlank
     @Column(nullable = false)
-    @Size(max = 255)
+    @Size(min = 8, max = 255)
     private String password;
 
     /** The first name of the user. */
