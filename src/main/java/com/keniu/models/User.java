@@ -38,7 +38,7 @@ public class User {
     /** The password of the user. */
     @NotBlank
     @Column(nullable = false)
-    @Size(max = 255)
+    @Size(min = 8, max = 255)
     private String password;
 
     /** The first name of the user. */

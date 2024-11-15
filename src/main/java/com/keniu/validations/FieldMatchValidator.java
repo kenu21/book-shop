@@ -2,6 +2,7 @@ package com.keniu.validations;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
+import java.util.Objects;
 import org.springframework.beans.BeanWrapperImpl;
 
 /**
@@ -25,8 +26,7 @@ public class FieldMatchValidator implements ConstraintValidator<FieldMatch, Obje
         Object firstValue = new BeanWrapperImpl(value).getPropertyValue(firstFieldName);
         Object secondValue = new BeanWrapperImpl(value).getPropertyValue(secondFieldName);
 
-        boolean isValid = (firstValue == null && secondValue == null)
-                || (firstValue != null && firstValue.equals(secondValue));
+        boolean isValid = Objects.equals(firstValue, secondValue);
 
         if (!isValid) {
             context.disableDefaultConstraintViolation();
