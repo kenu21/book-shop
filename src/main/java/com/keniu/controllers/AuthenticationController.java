@@ -2,6 +2,8 @@ package com.keniu.controllers;
 
 import com.keniu.dto.CreateUserRequestDto;
 import com.keniu.dto.UserDto;
+import com.keniu.dto.UserLoginDto;
+import com.keniu.dto.UserLoginRequestDto;
 import com.keniu.exceptions.RegistrationException;
 import com.keniu.services.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -39,5 +41,10 @@ public class AuthenticationController {
     public UserDto register(@Valid @RequestBody CreateUserRequestDto createUserRequestDto)
             throws RegistrationException {
         return userService.save(createUserRequestDto);
+    }
+
+    @PostMapping("/login")
+    public UserLoginDto login(UserLoginRequestDto request) {
+        return null;
     }
 }

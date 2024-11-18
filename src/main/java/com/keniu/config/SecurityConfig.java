@@ -2,6 +2,8 @@ package com.keniu.config;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
+import com.keniu.security.JwtAuthenticationFilter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -12,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 /**
  * Configuration class for security-related beans in the application. This class defines the beans
@@ -19,12 +22,10 @@ import org.springframework.security.web.SecurityFilterChain;
  */
 @Configuration
 @EnableMethodSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
     private final UserDetailsService userDetailsService;
-
-    public SecurityConfig(UserDetailsService userDetailsService) {
-        this.userDetailsService = userDetailsService;
-    }
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
     /**
      * Provides a {@link PasswordEncoder} bean that uses the BCrypt hashing algorithm. BCrypt is a
@@ -51,6 +52,7 @@ public class SecurityConfig {
                     .anyRequest()
                     .authenticated()
             )
+            .addFilterBefore(jwtAuthenticationFilter, BasicAuthenticationFilter.class)
             .httpBasic(withDefaults())
             .sessionManagement(
                 session ->
