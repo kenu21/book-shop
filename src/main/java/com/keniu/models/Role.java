@@ -2,6 +2,8 @@ package com.keniu.models;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -40,7 +42,8 @@ public class Role implements GrantedAuthority {
     @NotBlank
     @Column(nullable = false, unique = true)
     @Size(max = 255)
-    private String name;
+    @Enumerated(EnumType.STRING)
+    private RoleName name;
 
     /**
      * Indicates if the role is marked as deleted (soft delete). A role marked as deleted won't be
@@ -51,6 +54,6 @@ public class Role implements GrantedAuthority {
 
     @Override
     public String getAuthority() {
-        return name;
+        return name.name();
     }
 }

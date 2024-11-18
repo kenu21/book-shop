@@ -6,7 +6,6 @@ import com.keniu.services.BookService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import java.security.Principal;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -40,8 +39,8 @@ public class BookController {
     @Operation(summary = "Find all books")
     @GetMapping
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
-    public Page<BookDto> findAll(Pageable pageable, Principal principal) {
-        return bookService.findAll(principal.getName(), pageable);
+    public Page<BookDto> findAll(Pageable pageable) {
+        return bookService.findAll(pageable);
     }
 
     /**
