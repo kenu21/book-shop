@@ -25,7 +25,7 @@ public interface BookService {
      *
      * @return a list of {@link BookDto} representing all books
      */
-    Page<BookDto> findAll(String email, Pageable pageable);
+    Page<BookDto> findAll(Pageable pageable);
 
     /**
      * Retrieves the details of a specific book by its unique identifier.

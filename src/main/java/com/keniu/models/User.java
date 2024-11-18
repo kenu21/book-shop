@@ -76,6 +76,11 @@ public class User implements UserDetails {
     private Boolean isDeleted = false;
 
     @Override
+    public boolean isEnabled() {
+        return !isDeleted;
+    }
+
+    @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return roles;
     }
