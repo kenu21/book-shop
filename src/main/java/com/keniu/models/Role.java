@@ -8,7 +8,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
@@ -39,7 +39,7 @@ public class Role implements GrantedAuthority {
     /**
      * The name of the role, which should be unique.
      */
-    @NotBlank
+    @NotNull
     @Column(nullable = false, unique = true)
     @Size(max = 255)
     @Enumerated(EnumType.STRING)
