@@ -22,7 +22,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 userLoginRequestDto.getPassword()
             )
         );
-        return new UserLoginDto(
-            jwtUtil.generateToken(userLoginRequestDto.getEmail()));
+        String token = jwtUtil.generateToken(userLoginRequestDto.getEmail());
+        return new UserLoginDto(token);
     }
 }
