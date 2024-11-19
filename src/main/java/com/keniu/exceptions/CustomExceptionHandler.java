@@ -3,6 +3,7 @@ package com.keniu.exceptions;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -34,6 +35,12 @@ public class CustomExceptionHandler {
         return new ResponseEntity<>(
             "Can't create a new user. The reason: " + ex.getMessage(),
             HttpStatus.UNPROCESSABLE_ENTITY);
+    }
+
+    @ExceptionHandler(AuthorizationDeniedException.class)
+    public ResponseEntity<String> handleAuthorizationDeniedException(Exception ex) {
+        return new ResponseEntity<>(
+            "You don't have access!", HttpStatus.FORBIDDEN);
     }
 
     @ExceptionHandler(Exception.class)

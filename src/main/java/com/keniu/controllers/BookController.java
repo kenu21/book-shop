@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -37,6 +38,7 @@ public class BookController {
      */
     @Operation(summary = "Find all books")
     @GetMapping
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public Page<BookDto> findAll(Pageable pageable) {
         return bookService.findAll(pageable);
     }
@@ -49,6 +51,7 @@ public class BookController {
      */
     @Operation(summary = "Find book by id")
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public BookDto getById(@PathVariable Long id) {
         return bookService.getById(id);
     }
@@ -63,6 +66,7 @@ public class BookController {
     @Operation(summary = "Create book")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public BookDto save(@Valid @RequestBody CreateBookRequestDto createBookRequestDto) {
         return bookService.save(createBookRequestDto);
     }
@@ -81,6 +85,7 @@ public class BookController {
      */
     @Operation(summary = "Update or crate book")
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public BookDto update(@PathVariable Long id,
             @Valid @RequestBody CreateBookRequestDto createBookRequestDto) {
         return bookService.update(id, createBookRequestDto);
@@ -94,6 +99,7 @@ public class BookController {
     @Operation(summary = "Delete book by id")
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void deleteById(@PathVariable Long id) {
         bookService.deleteById(id);
     }
