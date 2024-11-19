@@ -29,6 +29,7 @@ public interface UserMapper {
      * @return the newly created User entity
      */
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "roles", ignore = true)
     @Mapping(target = "authorities", ignore = true)
     @Mapping(target = "isDeleted", expression = "java(false)")
     User toModel(CreateUserRequestDto createUserRequestDto);

@@ -5,6 +5,7 @@ import com.keniu.dto.UserDto;
 import com.keniu.dto.UserLoginDto;
 import com.keniu.dto.UserLoginRequestDto;
 import com.keniu.exceptions.RegistrationException;
+import com.keniu.services.AuthenticationService;
 import com.keniu.services.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -26,6 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "User management", description = "Endpoints for managing users")
 public class AuthenticationController {
     private final UserService userService;
+    private final AuthenticationService authenticationService;
 
     /**
      * Registers a new user in the system with the provided details.
@@ -44,7 +46,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/login")
-    public UserLoginDto login(UserLoginRequestDto request) {
-        return null;
+    public UserLoginDto login(@RequestBody UserLoginRequestDto userLoginRequestDto) {
+        return authenticationService.authenticate(userLoginRequestDto);
     }
 }

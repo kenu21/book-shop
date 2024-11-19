@@ -5,6 +5,15 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
+/**
+ * Data Transfer Object (DTO) for
+ * representing a user creation request in the books shop application.
+ * This class is used to transfer user input data for creating a new user
+ * between the client and the server.
+ *
+ * It includes validation constraints for ensuring valid input values,
+ * such as non-blank fields, proper password length, and matching passwords.
+ */
 @FieldMatch(first = "password", second = "repeatPassword", message = "Passwords must match")
 @Data
 public class CreateUserRequestDto {
