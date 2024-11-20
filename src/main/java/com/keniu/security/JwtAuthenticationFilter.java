@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,6 +22,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private static final int BEARER_PREFIX_LENGTH = 7;
+    private static final String BEARER = "Bearer ";
     private final JwtUtil jwtUtil;
     private final UserDetailsService userDetailsService;
 
@@ -57,9 +59,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     }
 
     private String getToken(HttpServletRequest request) {
-        String fullToken = request.getHeader("Authorization");
-        if (StringUtils.hasText(fullToken) && fullToken.startsWith("Bearer ")) {
-            return fullToken.substring(BEARER_PREFIX_LENGTH);
+        String fullToken = request.getHeader(HttpHeaders.AUTHORIZATION);
+        if (StringUtils.hasText(fullToken) && fullToken.startsWith(BEARER)) {
+            return fullToken.substring(BEARER.length());
         }
         throw new RegistrationException("Token is invalid!");
     }
