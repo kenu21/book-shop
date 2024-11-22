@@ -1,6 +1,7 @@
 package com.keniu.dto;
 
 import java.math.BigDecimal;
+import java.util.Set;
 import lombok.Data;
 
 /**
@@ -15,5 +16,6 @@ public class BookDto {
     private String isbn;
     private BigDecimal price;
     private String description;
+    private Set<Long> categoryIds;
     private String coverImage;
 }

@@ -15,8 +15,8 @@ import java.util.Collection;
 import java.util.Set;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -24,8 +24,8 @@ import org.springframework.security.core.userdetails.UserDetails;
  * Represents a user in the books shop application.
  */
 @Entity
-@SQLDelete(sql = "UPDATE user SET is_deleted = true WHERE id=?")
-@Filter(name = "softDeleteFilter", condition = "is_deleted = false")
+@SQLDelete(sql = "UPDATE users SET is_deleted = true WHERE id=?")
+@SQLRestriction("is_deleted = false")
 @Getter
 @Setter
 @Table(name = "users")

@@ -1,6 +1,7 @@
 package com.keniu.services;
 
 import com.keniu.dto.BookDto;
+import com.keniu.dto.BookDtoWithoutCategoryIds;
 import com.keniu.dto.CreateBookRequestDto;
 import com.keniu.exceptions.EntityNotFoundException;
 import com.keniu.mappers.BookMapper;
@@ -43,5 +44,11 @@ public class BookServiceImpl implements BookService {
     @Override
     public void deleteById(Long id) {
         bookRepository.deleteById(id);
+    }
+
+    @Override
+    public Page<BookDtoWithoutCategoryIds> getBooksByCategoryId(Long id, Pageable pageable) {
+        return bookRepository.findAllByCategories_Id(id, pageable)
+                .map(bookMapper::toDtoWithoutCategories);
     }
 }

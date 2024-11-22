@@ -1,6 +1,7 @@
 package com.keniu.services;
 
 import com.keniu.dto.BookDto;
+import com.keniu.dto.BookDtoWithoutCategoryIds;
 import com.keniu.dto.CreateBookRequestDto;
 import com.keniu.models.Book;
 import org.springframework.data.domain.Page;
@@ -8,6 +9,8 @@ import org.springframework.data.domain.Pageable;
 
 /**
  * Service interface for managing {@link Book} entities.
+ * Provides methods for creating, retrieving, updating, and deleting books,
+ * as well as specific queries related to book categories.
  */
 public interface BookService {
 
@@ -21,9 +24,10 @@ public interface BookService {
     BookDto save(CreateBookRequestDto createBookRequestDto);
 
     /**
-     * Retrieves all book entities from the service.
+     * Retrieves a paginated list of all book entities from the service.
      *
-     * @return a list of {@link BookDto} representing all books
+     * @param pageable the pagination information
+     * @return a paginated {@link Page} of {@link BookDto} representing all books
      */
     Page<BookDto> findAll(Pageable pageable);
 
@@ -51,4 +55,14 @@ public interface BookService {
      * @param id the unique identifier of the book to be deleted
      */
     void deleteById(Long id);
+
+    /**
+     * Retrieves a paginated list of books that belong to a specific category.
+     *
+     * @param id the unique identifier of the category
+     * @param pageable the pagination information
+     * @return a paginated {@link Page} of {@link BookDtoWithoutCategoryIds}
+     * representing books in the specified category
+     */
+    Page<BookDtoWithoutCategoryIds> getBooksByCategoryId(Long id, Pageable pageable);
 }

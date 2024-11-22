@@ -9,3 +9,7 @@ databaseChangeLog:
       file: db/changelog/changes/151120241748-create-users_roles-table.yaml
   - include:
       file: db/changelog/changes/161120241533-create-two-users.yaml
+  - include:
+      file: db/changelog/changes/211120241703-create-category-table.yaml
+  - include:
+      file: db/changelog/changes/211120241710-create-books_categories.yaml
