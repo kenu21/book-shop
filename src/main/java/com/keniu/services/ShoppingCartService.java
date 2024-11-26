@@ -9,11 +9,11 @@ public interface ShoppingCartService {
     
     ShoppingCart save(ShoppingCart shoppingCart);
     
-    ShoppingCartDto getShoppingCart(String email);
+    ShoppingCartDto getShoppingCart(Long userId);
     
-    ShoppingCartDto addCartItem(String email, CreateCartItemRequestDto createCartItemRequestDto);
+    ShoppingCartDto addCartItem(Long userId, CreateCartItemRequestDto createCartItemRequestDto);
     
-    ShoppingCartDto update(String email, Long id, UpdateCarItemRequestDto updateCarItemRequestDto);
+    ShoppingCartDto update(Long userId, Long id, UpdateCarItemRequestDto updateCarItemRequestDto);
     
-    ShoppingCartDto delete(String email, Long id);
+    ShoppingCartDto delete(Long userId, Long id);
 }

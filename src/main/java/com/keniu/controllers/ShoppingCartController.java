@@ -31,7 +31,7 @@ public class ShoppingCartController {
     @GetMapping
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public ShoppingCartDto getShoppingCart(@AuthenticationPrincipal User user) {
-        return shoppingCartService.getShoppingCart(user.getEmail());
+        return shoppingCartService.getShoppingCart(user.getId());
     }
 
     @Operation(summary = "Add an item to the shopping cart")
@@ -39,7 +39,7 @@ public class ShoppingCartController {
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public ShoppingCartDto addCartItem(@AuthenticationPrincipal User user,
             @Valid @RequestBody CreateCartItemRequestDto createCartItemRequestDto) {
-        return shoppingCartService.addCartItem(user.getEmail(), createCartItemRequestDto);
+        return shoppingCartService.addCartItem(user.getId(), createCartItemRequestDto);
     }
 
     @Operation(summary = "Update the quantity of an item in the shopping cart")
@@ -48,7 +48,7 @@ public class ShoppingCartController {
     public ShoppingCartDto updateCartItem(@AuthenticationPrincipal User user,
             @PathVariable Long id,
             @Valid @RequestBody UpdateCarItemRequestDto updateCarItemRequestDto) {
-        return shoppingCartService.update(user.getEmail(), id, updateCarItemRequestDto);
+        return shoppingCartService.update(user.getId(), id, updateCarItemRequestDto);
     }
 
     @Operation(summary = "Remove an item from the shopping cart")
@@ -56,6 +56,6 @@ public class ShoppingCartController {
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public ShoppingCartDto deleteCartItem(@AuthenticationPrincipal User user,
             @PathVariable Long id) {
-        return shoppingCartService.delete(user.getEmail(), id);
+        return shoppingCartService.delete(user.getId(), id);
     }
 }

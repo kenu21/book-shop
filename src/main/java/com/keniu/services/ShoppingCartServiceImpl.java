@@ -24,15 +24,15 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     }
 
     @Override
-    public ShoppingCartDto getShoppingCart(String email) {
-        ShoppingCart shoppingCart = getShoppingCartByEmail(email);
+    public ShoppingCartDto getShoppingCart(Long userId) {
+        ShoppingCart shoppingCart = getShoppingCartByEmail(userId);
         return shoppingCartMapper.toDto(shoppingCart);
     }
 
     @Override
-    public ShoppingCartDto addCartItem(String email,
+    public ShoppingCartDto addCartItem(Long userId,
             CreateCartItemRequestDto createCartItemRequestDto) {
-        ShoppingCart shoppingCart = getShoppingCartByEmail(email);
+        ShoppingCart shoppingCart = getShoppingCartByEmail(userId);
         CartItem cartItem = new CartItem();
         cartItem.setShoppingCart(shoppingCart);
         Book book = new Book();
@@ -45,9 +45,9 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     }
 
     @Override
-    public ShoppingCartDto update(String email, Long id,
+    public ShoppingCartDto update(Long userId, Long id,
             UpdateCarItemRequestDto updateCarItemRequestDto) {
-        ShoppingCart shoppingCart = getShoppingCartByEmail(email);
+        ShoppingCart shoppingCart = getShoppingCartByEmail(userId);
         CartItem cartItem = getCartItemById(shoppingCart, id);
         cartItem.setQuantity(updateCarItemRequestDto.getQuantity());
         shoppingCartRepository.save(shoppingCart);
@@ -55,8 +55,8 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     }
 
     @Override
-    public ShoppingCartDto delete(String email, Long id) {
-        ShoppingCart shoppingCart = getShoppingCartByEmail(email);
+    public ShoppingCartDto delete(Long userId, Long id) {
+        ShoppingCart shoppingCart = getShoppingCartByEmail(userId);
         CartItem cartItem = getCartItemById(shoppingCart, id);
         cartItem.setIsDeleted(true);
         shoppingCart.getCartItems().remove(cartItem);
@@ -64,16 +64,17 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         return shoppingCartMapper.toDto(shoppingCart);
     }
 
-    private ShoppingCart getShoppingCartByEmail(String email) {
-        return shoppingCartRepository.findByUserEmail(email)
+    private ShoppingCart getShoppingCartByEmail(Long userId) {
+        return shoppingCartRepository.findByUserId(userId)
             .orElseThrow(() ->
-                new EntityNotFoundException("Can't find cart for user with email " + email));
+                new EntityNotFoundException("Can't find cart for user with id " + userId));
     }
 
-    private CartItem getCartItemById(ShoppingCart shoppingCart, Long id) {
+    private CartItem getCartItemById(ShoppingCart shoppingCart, Long cartItemId) {
         return shoppingCart.getCartItems().stream()
-            .filter(item -> item.getId().equals(id))
+            .filter(item -> item.getId().equals(cartItemId))
             .findFirst()
-            .orElseThrow(() -> new EntityNotFoundException("Can't find CartItem with id " + id));
+            .orElseThrow(() ->
+                new EntityNotFoundException("Can't find CartItem with id " + cartItemId));
     }
 }
