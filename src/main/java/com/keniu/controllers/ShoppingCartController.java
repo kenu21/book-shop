@@ -20,9 +20,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- * Controller class for managing cart-related operations in the book shop application.
- */
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/cart")
@@ -30,12 +27,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class ShoppingCartController {
     private final ShoppingCartService shoppingCartService;
 
-    /**
-     * Retrieves the shopping cart of the authenticated user.
-     *
-     * @param user the authenticated user
-     * @return a {@link ShoppingCartDto} representing the user's shopping cart
-     */
     @Operation(summary = "Retrieve user's shopping cart")
     @GetMapping
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
@@ -43,13 +34,6 @@ public class ShoppingCartController {
         return shoppingCartService.getShoppingCart(user.getEmail());
     }
 
-    /**
-     * Adds a new item to the authenticated user's shopping cart.
-     *
-     * @param user the authenticated user
-     * @param createCartItemRequestDto the details of the item to add to the cart
-     * @return an updated {@link ShoppingCartDto} representing the shopping cart
-     */
     @Operation(summary = "Add an item to the shopping cart")
     @PostMapping
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
@@ -58,14 +42,6 @@ public class ShoppingCartController {
         return shoppingCartService.addCartItem(user.getEmail(), createCartItemRequestDto);
     }
 
-    /**
-     * Updates the quantity of a specific item in the user's shopping cart.
-     *
-     * @param user the authenticated user
-     * @param id the unique identifier of the cart item
-     * @param updateCarItemRequestDto the updated quantity of the cart item
-     * @return an updated {@link ShoppingCartDto} representing the shopping cart
-     */
     @Operation(summary = "Update the quantity of an item in the shopping cart")
     @PutMapping("/items/{id}")
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
@@ -75,13 +51,6 @@ public class ShoppingCartController {
         return shoppingCartService.update(user.getEmail(), id, updateCarItemRequestDto);
     }
 
-    /**
-     * Removes a specific item from the user's shopping cart.
-     *
-     * @param user the authenticated user
-     * @param id the unique identifier of the cart item to be removed
-     * @return an updated {@link ShoppingCartDto} representing the shopping cart
-     */
     @Operation(summary = "Remove an item from the shopping cart")
     @DeleteMapping("/items/{id}")
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")

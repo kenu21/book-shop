@@ -13,10 +13,6 @@ import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
-/**
- * Represents a category in the book shop application.
- * Categories can be used to classify books by genre, author, or other criteria.
- */
 @Entity
 @SQLDelete(sql = "UPDATE categories SET is_deleted = true WHERE id=?")
 @SQLRestriction("is_deleted = false")
@@ -25,22 +21,18 @@ import org.hibernate.annotations.SQLRestriction;
 @Table(name = "categories")
 public class Category {
 
-    /** The unique identifier for the category. */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    /** The name of the category. */
     @NotBlank
     @Size(max = 255)
     @Column(nullable = false)
     private String name;
 
-    /** A brief description of the category. */
     @Size(max = 255)
     private String description;
 
-    /** Indicates if the category is marked as deleted (soft delete). */
     @Column(nullable = false, columnDefinition = "TINYINT(1)")
     private Boolean isDeleted = false;
 }

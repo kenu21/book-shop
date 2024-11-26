@@ -18,10 +18,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-/**
- * Configuration class for security-related beans in the application. This class defines the beans
- * required for password encoding.
- */
 @Configuration
 @EnableMethodSecurity
 @RequiredArgsConstructor
@@ -29,13 +25,6 @@ public class SecurityConfig {
     private final UserDetailsService userDetailsService;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
-    /**
-     * Provides a {@link PasswordEncoder} bean that uses the BCrypt hashing algorithm. BCrypt is a
-     * strong hashing function that includes a built-in salt to protect against rainbow table
-     * attacks and allows configurable work factors to mitigate brute-force attacks.
-     *
-     * @return a {@link BCryptPasswordEncoder} instance
-     */
     @Bean
     public PasswordEncoder getPasswordEncoder() {
         return new BCryptPasswordEncoder();
