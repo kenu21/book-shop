@@ -18,9 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- * Controller class for managing authentication operations in the books shop application.
- */
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/auth")
@@ -29,13 +26,6 @@ public class AuthenticationController {
     private final UserService userService;
     private final AuthenticationService authenticationService;
 
-    /**
-     * Registers a new user in the system with the provided details.
-     *
-     * @param createUserRequestDto a {@link CreateUserRequestDto} containing the user details
-     * @return a {@link UserDto} representing the newly created user
-     * @throws RegistrationException if there is any error during the registration process
-     */
     @Operation(summary = "User registration",
             description = "Register a new user in the book shop application.")
     @PostMapping("/registration")

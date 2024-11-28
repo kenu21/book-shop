@@ -21,9 +21,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- * Controller class for managing book-related operations in the book shop application.
- */
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/books")
@@ -31,11 +28,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class BookController {
     private final BookService bookService;
 
-    /**
-     * Retrieves a list of all books in the book shop.
-     *
-     * @return a list of {@link BookDto} objects representing all books
-     */
     @Operation(summary = "Find all books")
     @GetMapping
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
@@ -43,12 +35,6 @@ public class BookController {
         return bookService.findAll(pageable);
     }
 
-    /**
-     * Retrieves the details of a specific book by its unique identifier.
-     *
-     * @param id the unique identifier of the book
-     * @return a {@link BookDto} containing the details of the specified book
-     */
     @Operation(summary = "Find book by id")
     @GetMapping("/{id}")
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
@@ -56,13 +42,6 @@ public class BookController {
         return bookService.getById(id);
     }
 
-    /**
-     * Creates a new book in the book shop based on the provided details.
-     *
-     * @param createBookRequestDto a {@link CreateBookRequestDto}
-     * containing details for the new book
-     * @return a {@link BookDto} representing the created book
-     */
     @Operation(summary = "Create book")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -71,18 +50,6 @@ public class BookController {
         return bookService.save(createBookRequestDto);
     }
 
-    /**
-     * Updates the details of an existing book in the book shop.
-     *
-     * This method accepts a book ID and the new details of the book.
-     * It updates the existing book in the database
-     * with the provided information.
-     *
-     * @param id the unique identifier of the book to be updated
-     * @param createBookRequestDto
-     * a {@link CreateBookRequestDto} containing the new details of the book
-     * @return a {@link BookDto} representing the updated book with the new details
-     */
     @Operation(summary = "Update or crate book")
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -91,11 +58,6 @@ public class BookController {
         return bookService.update(id, createBookRequestDto);
     }
 
-    /**
-     * Deletes a book from the book shop by its unique identifier.
-     *
-     * @param id the unique identifier of the book to be deleted
-     */
     @Operation(summary = "Delete book by id")
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)

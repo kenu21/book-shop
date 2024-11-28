@@ -7,11 +7,6 @@ import java.math.BigDecimal;
 import java.util.Set;
 import lombok.Data;
 
-/**
- * Data Transfer Object (DTO) for creating
- * a new book in the book shop application.
- * Contains necessary information to create a book entity.
- */
 @Data
 public class CreateBookRequestDto {
     @NotBlank

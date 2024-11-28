@@ -5,9 +5,6 @@ import jakarta.validation.ConstraintValidatorContext;
 import java.util.Objects;
 import org.springframework.beans.BeanWrapperImpl;
 
-/**
- * Validator implementation for the {@code @FieldMatch} annotation.
- */
 public class FieldMatchValidator implements ConstraintValidator<FieldMatch, Object> {
 
     private String firstFieldName;
