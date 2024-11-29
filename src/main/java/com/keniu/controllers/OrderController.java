@@ -4,7 +4,6 @@ import com.keniu.dto.CreateOrderRequestDto;
 import com.keniu.dto.OrderDto;
 import com.keniu.models.User;
 import com.keniu.services.OrderService;
-import com.keniu.services.ShoppingCartService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;

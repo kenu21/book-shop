@@ -43,7 +43,6 @@ public class Order {
     @NotNull
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    @Size(max = 255)
     private Status status;
 
     @NotNull

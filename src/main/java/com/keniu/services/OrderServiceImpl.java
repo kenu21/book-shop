@@ -1,9 +1,7 @@
 package com.keniu.services;
 
-import com.keniu.dto.CartItemDto;
 import com.keniu.dto.CreateOrderRequestDto;
 import com.keniu.dto.OrderDto;
-import com.keniu.dto.ShoppingCartDto;
 import com.keniu.exceptions.EntityNotFoundException;
 import com.keniu.mappers.OrderMapper;
 import com.keniu.models.CartItem;
@@ -17,7 +15,7 @@ import com.keniu.repositories.ShoppingCartRepository;
 import jakarta.transaction.Transactional;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.Optional;
+import java.util.HashSet;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -38,10 +36,13 @@ public class OrderServiceImpl implements OrderService {
         order.setUser(user);
         order.setStatus(Status.PENDING);
         ShoppingCart shoppingCart = shoppingCartRepository.findByUserId(user.getId())
-            .orElseThrow(() ->
-                new EntityNotFoundException("Can't find cart for user with id " + user.getId()));
+                .orElseThrow(() ->
+                    new EntityNotFoundException(
+                        "Can't find cart for user with id " + user.getId())
+                );
         Set<CartItem> cartItems = shoppingCart.getCartItems();
         BigDecimal total = BigDecimal.ZERO;
+        Set<OrderItem> orderItems = new HashSet<>();
         for (CartItem cartItem : cartItems) {
             OrderItem orderItem = new OrderItem();
             orderItem.setOrder(order);
@@ -49,9 +50,11 @@ public class OrderServiceImpl implements OrderService {
             orderItem.setQuantity(cartItem.getQuantity());
             BigDecimal price = cartItem.getBook().getPrice();
             orderItem.setPrice(price);
-            order.getOrderItems().add(orderItem);
+            orderItems.add(orderItem);
             total = total.add(price.multiply(new BigDecimal(cartItem.getQuantity())));
         }
+        order.setOrderItems(orderItems);
+        order.setTotal(total);
         order.setOrderDate(LocalDateTime.now());
         return orderMapper.toDto(orderRepository.save(order));
     }
