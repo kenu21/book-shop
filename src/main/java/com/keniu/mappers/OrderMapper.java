@@ -7,6 +7,7 @@ import com.keniu.dto.UpdateOrderRequestDto;
 import com.keniu.models.Order;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 
 @Mapper(config = MapperConfig.class, uses = OrderItemMapper.class)
 public interface OrderMapper {
@@ -16,5 +17,8 @@ public interface OrderMapper {
 
     Order toModel(CreateOrderRequestDto createOrderRequestDto);
 
-    Order toModel(UpdateOrderRequestDto updateOrderRequestDto);
+    void updateOrderFromDto(
+            UpdateOrderRequestDto updateOrderRequestDto,
+            @MappingTarget Order order);
+
 }
