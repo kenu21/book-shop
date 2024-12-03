@@ -4,6 +4,7 @@ import com.keniu.dto.CreateOrderRequestDto;
 import com.keniu.dto.OrderDto;
 import com.keniu.dto.OrderItemDto;
 import com.keniu.dto.UpdateOrderRequestDto;
+import com.keniu.exceptions.EmptyShoppingCartException;
 import com.keniu.exceptions.EntityNotFoundException;
 import com.keniu.mappers.OrderItemMapper;
 import com.keniu.mappers.OrderMapper;
@@ -17,7 +18,6 @@ import com.keniu.repositories.OrderRepository;
 import com.keniu.repositories.ShoppingCartRepository;
 import jakarta.transaction.Transactional;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -37,7 +37,6 @@ public class OrderServiceImpl implements OrderService {
     private final ShoppingCartRepository shoppingCartRepository;
 
     @Override
-    @Transactional
     public OrderDto save(User user, CreateOrderRequestDto createOrderRequestDto) {
         Order order = createOrderFromDto(createOrderRequestDto, user);
         return orderMapper.toDto(orderRepository.save(order));
@@ -45,7 +44,8 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Page<OrderDto> findAll(User user, Pageable pageable) {
-        return orderRepository.findByUserId(user.getId(), pageable).map(orderMapper::toDto);
+        return orderRepository.findByUserId(user.getId(), pageable)
+            .map(orderMapper::toDto);
     }
 
     @Override
@@ -82,7 +82,6 @@ public class OrderServiceImpl implements OrderService {
 
         order.setOrderItems(orderItems);
         order.setTotal(total);
-        order.setOrderDate(LocalDateTime.now());
         return order;
     }
 
@@ -93,6 +92,9 @@ public class OrderServiceImpl implements OrderService {
     }
 
     private Set<OrderItem> createOrderItems(ShoppingCart shoppingCart) {
+        if (shoppingCart.getCartItems().isEmpty()) {
+            throw new EmptyShoppingCartException("Your cart is empty!");
+        }
         Set<OrderItem> orderItems = new HashSet<>();
         for (CartItem cartItem : shoppingCart.getCartItems()) {
             OrderItem orderItem = new OrderItem();

@@ -20,5 +20,4 @@ public interface OrderMapper {
     void updateOrderFromDto(
             UpdateOrderRequestDto updateOrderRequestDto,
             @MappingTarget Order order);
-
 }

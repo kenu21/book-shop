@@ -20,6 +20,7 @@ import java.time.LocalDateTime;
 import java.util.Set;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
@@ -47,6 +48,7 @@ public class Order {
     private BigDecimal total;
 
     @Column(nullable = false)
+    @CreationTimestamp
     private LocalDateTime orderDate;
 
     @Column(nullable = false)
