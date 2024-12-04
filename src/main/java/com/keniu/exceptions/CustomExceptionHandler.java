@@ -1,5 +1,8 @@
 package com.keniu.exceptions;
 
+import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
+import static org.springframework.http.HttpStatus.UNPROCESSABLE_ENTITY;
+
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,9 +46,15 @@ public class CustomExceptionHandler {
             "You don't have access!", HttpStatus.FORBIDDEN);
     }
 
+    @ExceptionHandler(EmptyShoppingCartException.class)
+    public ResponseEntity<String> handleEmptyShoppingCartException(Exception ex) {
+        return new ResponseEntity<>(
+            "You cart is empty!", UNPROCESSABLE_ENTITY);
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> handleAllExceptions(Exception ex) {
         return new ResponseEntity<>(
-            "An unexpected error occurred", HttpStatus.INTERNAL_SERVER_ERROR);
+            "An unexpected error occurred", INTERNAL_SERVER_ERROR);
     }
 }
