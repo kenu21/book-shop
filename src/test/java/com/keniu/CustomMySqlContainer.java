@@ -1,5 +1,6 @@
 package com.keniu;
 
+import org.springframework.test.context.DynamicPropertyRegistry;
 import org.testcontainers.containers.MySQLContainer;
 
 public class CustomMySqlContainer extends MySQLContainer<CustomMySqlContainer> {
@@ -22,8 +23,15 @@ public class CustomMySqlContainer extends MySQLContainer<CustomMySqlContainer> {
     @Override
     public void start() {
         super.start();
-        System.setProperty("TEST_DB_URL", mysqlContainer.getJdbcUrl());
-        System.setProperty("TEST_DB_USERNAME", mysqlContainer.getUsername());
-        System.setProperty("TEST_DB_PASSWORD", mysqlContainer.getPassword());
+        System.setProperty("TEST_DB_URL", this.getJdbcUrl());
+        System.setProperty("TEST_DB_USERNAME", this.getUsername());
+        System.setProperty("TEST_DB_PASSWORD", this.getPassword());
+    }
+
+    public void registerProperties(DynamicPropertyRegistry registry) {
+        registry.add("spring.datasource.url", this::getJdbcUrl);
+        registry.add("spring.datasource.username", this::getUsername);
+        registry.add("spring.datasource.password", this::getPassword);
+        registry.add("spring.datasource.driver-class-name", () -> "com.mysql.cj.jdbc.Driver");
     }
 }
