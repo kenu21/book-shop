@@ -18,6 +18,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
@@ -42,7 +43,7 @@ class BookControllerTest extends BaseIntegrationTest {
     @Test
     @WithMockUser(username = "admin", roles = "ADMIN")
     @Sql(scripts = "classpath:add-book.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    @Sql(scripts = "classpath:cleanup.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+    @Sql(scripts = "classpath:cleanup.sql", executionPhase = ExecutionPhase.AFTER_TEST_METHOD)
     void findAll_shouldReturnBooks() throws Exception {
         mockMvc.perform(get("/books")
                 .accept(MediaType.APPLICATION_JSON))
@@ -64,7 +65,7 @@ class BookControllerTest extends BaseIntegrationTest {
     @Test
     @WithMockUser(username = "admin", roles = "ADMIN")
     @Sql(scripts = "classpath:add-book.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    @Sql(scripts = "classpath:cleanup.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+    @Sql(scripts = "classpath:cleanup.sql", executionPhase = ExecutionPhase.AFTER_TEST_METHOD)
     void getById_shouldReturnBook() throws Exception {
         mockMvc.perform(get("/books/1")
                 .accept(MediaType.APPLICATION_JSON))
@@ -79,7 +80,7 @@ class BookControllerTest extends BaseIntegrationTest {
 
     @Test
     @WithMockUser(username = "admin", roles = "ADMIN")
-    @Sql(scripts = "classpath:cleanup.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+    @Sql(scripts = "classpath:cleanup.sql", executionPhase = ExecutionPhase.AFTER_TEST_METHOD)
     void save_shouldCreateBook() throws Exception {
         CreateBookRequestDto createBookRequestDto = new CreateBookRequestDto();
         createBookRequestDto.setTitle("New Book");
@@ -103,7 +104,7 @@ class BookControllerTest extends BaseIntegrationTest {
 
     @Test
     @WithMockUser(username = "admin", roles = "ADMIN")
-    @Sql(scripts = "classpath:cleanup.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+    @Sql(scripts = "classpath:cleanup.sql", executionPhase = ExecutionPhase.AFTER_TEST_METHOD)
     void update_shouldUpdateBook() throws Exception {
         CreateBookRequestDto createBookRequestDto = new CreateBookRequestDto();
         createBookRequestDto.setTitle("Updated Book");
@@ -128,7 +129,7 @@ class BookControllerTest extends BaseIntegrationTest {
     @Test
     @WithMockUser(username = "admin", roles = "ADMIN")
     @Sql(scripts = "classpath:add-book.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    @Sql(scripts = "classpath:cleanup.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+    @Sql(scripts = "classpath:cleanup.sql", executionPhase = ExecutionPhase.AFTER_TEST_METHOD)
     void deleteById_shouldDeleteBook() throws Exception {
         mockMvc.perform(delete("/books/1"))
                 .andExpect(status().isNoContent());
