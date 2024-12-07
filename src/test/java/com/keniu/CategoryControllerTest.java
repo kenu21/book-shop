@@ -50,7 +50,10 @@ class CategoryControllerTest extends BaseIntegrationTest {
         mockMvc.perform(get("/categories")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.content[0].name").value("Test Category"))
+                .andExpect(jsonPath("$.content[0].id")
+                .value("1"))
+                .andExpect(jsonPath("$.content[0].name")
+                .value("Test Category"))
                 .andExpect(jsonPath("$.content[0].description")
                 .value("Category Description"));
     }
@@ -66,6 +69,8 @@ class CategoryControllerTest extends BaseIntegrationTest {
         mockMvc.perform(get("/categories/1")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id")
+                .value("1"))
                 .andExpect(jsonPath("$.name").value("Test Category"))
                 .andExpect(jsonPath("$.description")
                 .value("Category Description"));
@@ -83,6 +88,7 @@ class CategoryControllerTest extends BaseIntegrationTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(createCategoryRequestDto)))
                 .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.id").exists())
                 .andExpect(jsonPath("$.name").value("New Category"))
                 .andExpect(jsonPath("$.description")
                 .value("New Category Description"));
@@ -104,6 +110,7 @@ class CategoryControllerTest extends BaseIntegrationTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(createCategoryRequestDto)))
                 .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value("1"))
                 .andExpect(jsonPath("$.name").value("Updated Category"))
                 .andExpect(jsonPath("$.description")
                 .value("Updated Description"));
@@ -129,6 +136,7 @@ class CategoryControllerTest extends BaseIntegrationTest {
         mockMvc.perform(get("/categories/1/books")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
+                .andExpect(jsonPath("$.content[0].id").value("1"))
                 .andExpect(jsonPath("$.content[0].title").value("Test Book"))
                 .andExpect(jsonPath("$.content[0].author").value("Author1"));
     }
