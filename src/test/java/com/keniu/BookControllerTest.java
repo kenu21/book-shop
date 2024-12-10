@@ -88,13 +88,7 @@ class BookControllerTest extends BaseIntegrationTest {
     @WithMockUser(username = "admin", roles = "ADMIN")
     @Sql(scripts = "classpath:cleanup.sql", executionPhase = ExecutionPhase.AFTER_TEST_METHOD)
     void save_shouldCreateBook() throws Exception {
-        CreateBookRequestDto createBookRequestDto = new CreateBookRequestDto();
-        createBookRequestDto.setTitle("New Book");
-        createBookRequestDto.setAuthor("New Author");
-        createBookRequestDto.setIsbn("987-6543210987");
-        createBookRequestDto.setPrice(BigDecimal.valueOf(15.99));
-        createBookRequestDto.setDescription("New Description");
-        createBookRequestDto.setCoverImage("newcover.jpg");
+        CreateBookRequestDto createBookRequestDto = createBookRequestDto();
 
         mockMvc.perform(post("/books")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -112,6 +106,7 @@ class BookControllerTest extends BaseIntegrationTest {
 
     @Test
     @WithMockUser(username = "admin", roles = "ADMIN")
+    @Sql(scripts = "classpath:add-book.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(scripts = "classpath:cleanup.sql", executionPhase = ExecutionPhase.AFTER_TEST_METHOD)
     void update_shouldUpdateBook() throws Exception {
         CreateBookRequestDto createBookRequestDto = new CreateBookRequestDto();
@@ -126,6 +121,7 @@ class BookControllerTest extends BaseIntegrationTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(createBookRequestDto)))
             .andExpect(status().isOk())
+            .andExpect(jsonPath("$.id").value("1"))
             .andExpect(jsonPath("$.title").value("Updated Book"))
             .andExpect(jsonPath("$.author").value("Updated Author"))
             .andExpect(jsonPath("$.isbn").value("321-6549873210"))
@@ -142,5 +138,16 @@ class BookControllerTest extends BaseIntegrationTest {
     void deleteById_shouldDeleteBook() throws Exception {
         mockMvc.perform(delete("/books/1"))
                 .andExpect(status().isNoContent());
+    }
+
+    private CreateBookRequestDto createBookRequestDto() {
+        CreateBookRequestDto createBookRequestDto = new CreateBookRequestDto();
+        createBookRequestDto.setTitle("New Book");
+        createBookRequestDto.setAuthor("New Author");
+        createBookRequestDto.setIsbn("987-6543210987");
+        createBookRequestDto.setPrice(BigDecimal.valueOf(15.99));
+        createBookRequestDto.setDescription("New Description");
+        createBookRequestDto.setCoverImage("newcover.jpg");
+        return createBookRequestDto;
     }
 }
