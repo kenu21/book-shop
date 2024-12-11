@@ -48,6 +48,8 @@ class BookControllerTest extends BaseIntegrationTest {
         mockMvc.perform(get("/books")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
+                .andExpect(jsonPath("$.content[0].id")
+                    .value("1"))
                 .andExpect(jsonPath("$.content[0].title")
                     .value("Test Book"))
                 .andExpect(jsonPath("$.content[0].author")
@@ -58,6 +60,8 @@ class BookControllerTest extends BaseIntegrationTest {
                     .value(10.99))
                 .andExpect(jsonPath("$.content[0].description")
                     .value("Description1"))
+                .andExpect(jsonPath("$.content[0].categoryIds[0]")
+                    .value("1"))
                 .andExpect(jsonPath("$.content[0].coverImage")
                     .value("cover1.jpg"));
     }
@@ -70,11 +74,13 @@ class BookControllerTest extends BaseIntegrationTest {
         mockMvc.perform(get("/books/1")
                 .accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
+            .andExpect(jsonPath("$.id").value("1"))
             .andExpect(jsonPath("$.title").value("Test Book"))
             .andExpect(jsonPath("$.author").value("Author1"))
             .andExpect(jsonPath("$.isbn").value("123-4567890123"))
             .andExpect(jsonPath("$.price").value(10.99))
             .andExpect(jsonPath("$.description").value("Description1"))
+            .andExpect(jsonPath("$.categoryIds[0]").value("1"))
                 .andExpect(jsonPath("$.coverImage").value("cover1.jpg"));
     }
 
@@ -82,28 +88,25 @@ class BookControllerTest extends BaseIntegrationTest {
     @WithMockUser(username = "admin", roles = "ADMIN")
     @Sql(scripts = "classpath:cleanup.sql", executionPhase = ExecutionPhase.AFTER_TEST_METHOD)
     void save_shouldCreateBook() throws Exception {
-        CreateBookRequestDto createBookRequestDto = new CreateBookRequestDto();
-        createBookRequestDto.setTitle("New Book");
-        createBookRequestDto.setAuthor("New Author");
-        createBookRequestDto.setIsbn("987-6543210987");
-        createBookRequestDto.setPrice(BigDecimal.valueOf(15.99));
-        createBookRequestDto.setDescription("New Description");
-        createBookRequestDto.setCoverImage("newcover.jpg");
+        CreateBookRequestDto createBookRequestDto = createBookRequestDto();
 
         mockMvc.perform(post("/books")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(createBookRequestDto)))
             .andExpect(status().isCreated())
+            .andExpect(jsonPath("$.id").exists())
             .andExpect(jsonPath("$.title").value("New Book"))
             .andExpect(jsonPath("$.author").value("New Author"))
             .andExpect(jsonPath("$.isbn").value("987-6543210987"))
             .andExpect(jsonPath("$.price").value(15.99))
             .andExpect(jsonPath("$.description").value("New Description"))
+            .andExpect(jsonPath("$.categoryIds").exists())
                 .andExpect(jsonPath("$.coverImage").value("newcover.jpg"));
     }
 
     @Test
     @WithMockUser(username = "admin", roles = "ADMIN")
+    @Sql(scripts = "classpath:add-book.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(scripts = "classpath:cleanup.sql", executionPhase = ExecutionPhase.AFTER_TEST_METHOD)
     void update_shouldUpdateBook() throws Exception {
         CreateBookRequestDto createBookRequestDto = new CreateBookRequestDto();
@@ -118,11 +121,13 @@ class BookControllerTest extends BaseIntegrationTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(createBookRequestDto)))
             .andExpect(status().isOk())
+            .andExpect(jsonPath("$.id").value("1"))
             .andExpect(jsonPath("$.title").value("Updated Book"))
             .andExpect(jsonPath("$.author").value("Updated Author"))
             .andExpect(jsonPath("$.isbn").value("321-6549873210"))
             .andExpect(jsonPath("$.price").value(20.99))
             .andExpect(jsonPath("$.description").value("Updated Description"))
+            .andExpect(jsonPath("$.categoryIds").exists())
                 .andExpect(jsonPath("$.coverImage").value("newcover.jpg"));
     }
 
@@ -133,5 +138,16 @@ class BookControllerTest extends BaseIntegrationTest {
     void deleteById_shouldDeleteBook() throws Exception {
         mockMvc.perform(delete("/books/1"))
                 .andExpect(status().isNoContent());
+    }
+
+    private CreateBookRequestDto createBookRequestDto() {
+        CreateBookRequestDto createBookRequestDto = new CreateBookRequestDto();
+        createBookRequestDto.setTitle("New Book");
+        createBookRequestDto.setAuthor("New Author");
+        createBookRequestDto.setIsbn("987-6543210987");
+        createBookRequestDto.setPrice(BigDecimal.valueOf(15.99));
+        createBookRequestDto.setDescription("New Description");
+        createBookRequestDto.setCoverImage("newcover.jpg");
+        return createBookRequestDto;
     }
 }
