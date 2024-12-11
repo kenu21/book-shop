@@ -77,7 +77,7 @@ public class OrderServiceImpl implements OrderService {
         order.setUser(user);
         order.setStatus(Status.PENDING);
         ShoppingCart shoppingCart = findShoppingCartByUser(user);
-        Set<OrderItem> orderItems = createOrderItems(shoppingCart);
+        Set<OrderItem> orderItems = createOrderItems(shoppingCart, order);
         BigDecimal total = calculateTotal(orderItems);
 
         order.setOrderItems(orderItems);
@@ -91,13 +91,14 @@ public class OrderServiceImpl implements OrderService {
                 new EntityNotFoundException("Can't find cart for user with id " + user.getId()));
     }
 
-    private Set<OrderItem> createOrderItems(ShoppingCart shoppingCart) {
+    private Set<OrderItem> createOrderItems(ShoppingCart shoppingCart, Order order) {
         if (shoppingCart.getCartItems().isEmpty()) {
             throw new EmptyShoppingCartException("Your cart is empty!");
         }
         Set<OrderItem> orderItems = new HashSet<>();
         for (CartItem cartItem : shoppingCart.getCartItems()) {
             OrderItem orderItem = new OrderItem();
+            orderItem.setOrder(order);
             orderItem.setBook(cartItem.getBook());
             orderItem.setQuantity(cartItem.getQuantity());
             orderItem.setPrice(cartItem.getBook().getPrice());
