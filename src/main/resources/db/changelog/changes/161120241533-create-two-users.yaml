@@ -52,30 +52,6 @@ databaseChangeLog:
                   name: is_deleted
                   valueBoolean: false
         - insert:
-            tableName: users
-            columns:
-              - column:
-                  name: id
-                  value: 2
-              - column:
-                  name: email
-                  value: user@example.com
-              - column:
-                  name: password
-                  value: $2a$10$KmppU3ONvsZbOYfdfLvUU.bHPAgAZk6G7U8m9.O2RG5ywR8nMAbY6
-              - column:
-                  name: first_name
-                  value: Regular
-              - column:
-                  name: last_name
-                  value: User
-              - column:
-                  name: shipping_address
-                  value: User Address
-              - column:
-                  name: is_deleted
-                  valueBoolean: false
-        - insert:
             tableName: users_roles
             columns:
               - column:
@@ -84,12 +60,3 @@ databaseChangeLog:
               - column:
                   name: role_id
                   value: 1
-        - insert:
-            tableName: users_roles
-            columns:
-              - column:
-                  name: user_id
-                  value: 2
-              - column:
-                  name: role_id
-                  value: 2

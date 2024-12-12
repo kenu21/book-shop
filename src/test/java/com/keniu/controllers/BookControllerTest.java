@@ -1,4 +1,4 @@
-package com.keniu;
+package com.keniu.controllers;
 
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
@@ -9,6 +9,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.keniu.BaseIntegrationTest;
+import com.keniu.MockFilter;
 import com.keniu.dto.CreateBookRequestDto;
 import java.math.BigDecimal;
 import org.junit.jupiter.api.BeforeEach;
@@ -57,7 +59,7 @@ class BookControllerTest extends BaseIntegrationTest {
                 .andExpect(jsonPath("$.content[0].isbn")
                     .value("123-4567890123"))
                 .andExpect(jsonPath("$.content[0].price")
-                    .value(10.99))
+                    .value(25))
                 .andExpect(jsonPath("$.content[0].description")
                     .value("Description1"))
                 .andExpect(jsonPath("$.content[0].categoryIds[0]")
@@ -78,7 +80,7 @@ class BookControllerTest extends BaseIntegrationTest {
             .andExpect(jsonPath("$.title").value("Test Book"))
             .andExpect(jsonPath("$.author").value("Author1"))
             .andExpect(jsonPath("$.isbn").value("123-4567890123"))
-            .andExpect(jsonPath("$.price").value(10.99))
+            .andExpect(jsonPath("$.price").value(25))
             .andExpect(jsonPath("$.description").value("Description1"))
             .andExpect(jsonPath("$.categoryIds[0]").value("1"))
                 .andExpect(jsonPath("$.coverImage").value("cover1.jpg"));
@@ -109,13 +111,7 @@ class BookControllerTest extends BaseIntegrationTest {
     @Sql(scripts = "classpath:add-book.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(scripts = "classpath:cleanup.sql", executionPhase = ExecutionPhase.AFTER_TEST_METHOD)
     void update_shouldUpdateBook() throws Exception {
-        CreateBookRequestDto createBookRequestDto = new CreateBookRequestDto();
-        createBookRequestDto.setTitle("Updated Book");
-        createBookRequestDto.setAuthor("Updated Author");
-        createBookRequestDto.setIsbn("321-6549873210");
-        createBookRequestDto.setPrice(BigDecimal.valueOf(20.99));
-        createBookRequestDto.setDescription("Updated Description");
-        createBookRequestDto.setCoverImage("newcover.jpg");
+        CreateBookRequestDto createBookRequestDto = createBookRequestDtoToUpdate();
 
         mockMvc.perform(put("/books/1")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -147,6 +143,17 @@ class BookControllerTest extends BaseIntegrationTest {
         createBookRequestDto.setIsbn("987-6543210987");
         createBookRequestDto.setPrice(BigDecimal.valueOf(15.99));
         createBookRequestDto.setDescription("New Description");
+        createBookRequestDto.setCoverImage("newcover.jpg");
+        return createBookRequestDto;
+    }
+
+    private CreateBookRequestDto createBookRequestDtoToUpdate() {
+        CreateBookRequestDto createBookRequestDto = new CreateBookRequestDto();
+        createBookRequestDto.setTitle("Updated Book");
+        createBookRequestDto.setAuthor("Updated Author");
+        createBookRequestDto.setIsbn("321-6549873210");
+        createBookRequestDto.setPrice(BigDecimal.valueOf(20.99));
+        createBookRequestDto.setDescription("Updated Description");
         createBookRequestDto.setCoverImage("newcover.jpg");
         return createBookRequestDto;
     }

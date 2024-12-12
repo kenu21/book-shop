@@ -1,4 +1,4 @@
-package com.keniu;
+package com.keniu.controllers;
 
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
@@ -9,6 +9,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.keniu.BaseIntegrationTest;
+import com.keniu.MockFilter;
 import com.keniu.dto.CreateCategoryRequestDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -42,7 +44,7 @@ class CategoryControllerTest extends BaseIntegrationTest {
     @Test
     @WithMockUser(username = "admin", roles = "ADMIN")
     @Sql(
-            scripts = "classpath:add-category.sql",
+            scripts = "classpath:add-book.sql",
             executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD
     )
     @Sql(scripts = "classpath:cleanup.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
@@ -53,15 +55,15 @@ class CategoryControllerTest extends BaseIntegrationTest {
                 .andExpect(jsonPath("$.content[0].id")
                 .value("1"))
                 .andExpect(jsonPath("$.content[0].name")
-                .value("Test Category"))
+                .value("Fiction"))
                 .andExpect(jsonPath("$.content[0].description")
-                .value("Category Description"));
+                .value("Fictional books"));
     }
 
     @Test
     @WithMockUser(username = "admin", roles = "ADMIN")
     @Sql(
-            scripts = "classpath:add-category.sql",
+            scripts = "classpath:add-book.sql",
             executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD
     )
     @Sql(scripts = "classpath:cleanup.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
@@ -71,9 +73,9 @@ class CategoryControllerTest extends BaseIntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id")
                 .value("1"))
-                .andExpect(jsonPath("$.name").value("Test Category"))
+                .andExpect(jsonPath("$.name").value("Fiction"))
                 .andExpect(jsonPath("$.description")
-                .value("Category Description"));
+                .value("Fictional books"));
     }
 
     @Test
@@ -97,7 +99,7 @@ class CategoryControllerTest extends BaseIntegrationTest {
     @Test
     @WithMockUser(username = "admin", roles = "ADMIN")
     @Sql(
-            scripts = "classpath:add-category.sql",
+            scripts = "classpath:add-book.sql",
             executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD
     )
     @Sql(scripts = "classpath:cleanup.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
@@ -119,7 +121,7 @@ class CategoryControllerTest extends BaseIntegrationTest {
     @Test
     @WithMockUser(username = "admin", roles = "ADMIN")
     @Sql(
-            scripts = "classpath:add-category.sql",
+            scripts = "classpath:add-book.sql",
             executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD
     )
     @Sql(scripts = "classpath:cleanup.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
