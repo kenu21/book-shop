@@ -15,6 +15,8 @@ public interface OrderMapper {
     @Mapping(target = "userId", source = "user.id")
     OrderDto toDto(Order order);
 
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "isDeleted", expression = "java(false)")
     Order toModel(CreateOrderRequestDto createOrderRequestDto);
 
     void updateOrderFromDto(
