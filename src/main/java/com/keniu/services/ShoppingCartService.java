@@ -7,7 +7,7 @@ import com.keniu.models.ShoppingCart;
 
 public interface ShoppingCartService {
     
-    ShoppingCart save(ShoppingCart shoppingCart);
+    ShoppingCartDto save(ShoppingCart shoppingCart);
     
     ShoppingCartDto getShoppingCart(Long userId);
     

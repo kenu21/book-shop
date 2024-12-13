@@ -21,14 +21,13 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     private final ShoppingCartMapper shoppingCartMapper;
 
     @Override
-    public ShoppingCart save(ShoppingCart shoppingCart) {
-        return shoppingCartRepository.save(shoppingCart);
+    public ShoppingCartDto save(ShoppingCart shoppingCart) {
+        return shoppingCartMapper.toDto(shoppingCartRepository.save(shoppingCart));
     }
 
     @Override
     public ShoppingCartDto getShoppingCart(Long userId) {
-        ShoppingCart shoppingCart = getShoppingCartByUserId(userId);
-        return shoppingCartMapper.toDto(shoppingCart);
+        return shoppingCartMapper.toDto(getShoppingCartByUserId(userId));
     }
 
     @Override
