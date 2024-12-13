@@ -17,8 +17,20 @@ public interface OrderMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "isDeleted", expression = "java(false)")
+    @Mapping(target = "user", ignore = true)
+    @Mapping(target = "status", ignore = true)
+    @Mapping(target = "total", ignore = true)
+    @Mapping(target = "orderDate", ignore = true)
+    @Mapping(target = "orderItems", ignore = true)
     Order toModel(CreateOrderRequestDto createOrderRequestDto);
 
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "user", ignore = true)
+    @Mapping(target = "total", ignore = true)
+    @Mapping(target = "orderDate", ignore = true)
+    @Mapping(target = "shippingAddress", ignore = true)
+    @Mapping(target = "orderItems", ignore = true)
+    @Mapping(target = "isDeleted", ignore = true)
     void updateOrderFromDto(
             UpdateOrderRequestDto updateOrderRequestDto,
             @MappingTarget Order order);

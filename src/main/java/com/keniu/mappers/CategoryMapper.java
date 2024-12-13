@@ -17,6 +17,8 @@ public interface CategoryMapper {
     @Mapping(target = "isDeleted", expression = "java(false)")
     Category toModel(CreateCategoryRequestDto createCategoryRequestDto);
 
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "isDeleted", ignore = true)
     void updateCategoryFromDto(
             CreateCategoryRequestDto createCategoryRequestDto,
             @MappingTarget Category category);

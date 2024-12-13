@@ -53,6 +53,9 @@ public interface BookMapper {
             .collect(Collectors.toSet());
     }
 
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "isDeleted", ignore = true)
+    @Mapping(target = "categories", ignore = true)
     void updateBookFromDto(
             CreateBookRequestDto createBookRequestDto,
             @MappingTarget Book book);
