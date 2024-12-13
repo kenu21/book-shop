@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 @Service
 public class OrderItemServiceImpl implements OrderItemService {
+
     private final OrderItemRepository orderItemRepository;
     private final OrderItemMapper orderItemMapper;
 
@@ -26,7 +27,7 @@ public class OrderItemServiceImpl implements OrderItemService {
     public OrderItemDto findItemForOrder(Long orderId, Long itemId) {
         OrderItem orderItem = orderItemRepository.findByOrder_idAndId(orderId, itemId)
                 .orElseThrow(() -> new EntityNotFoundException("Can't find item with orderId"
-                    + orderId + "and with ItemId " + itemId));
+                + orderId + "and with ItemId " + itemId));
         return orderItemMapper.toDto(orderItem);
     }
 }

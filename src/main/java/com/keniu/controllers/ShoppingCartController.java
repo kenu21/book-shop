@@ -32,6 +32,7 @@ import org.springframework.web.bind.annotation.RestController;
         + "Access is controlled based on user roles. Admins and users can manage their own carts."
 )
 public class ShoppingCartController {
+
     private final ShoppingCartService shoppingCartService;
 
     @Operation(summary = "Retrieve user's shopping cart")

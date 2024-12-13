@@ -24,12 +24,13 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(
         name = "User Management",
         description = "This section provides endpoints for user management,"
-            + " including registration and login. "
+        + " including registration and login. "
         + "Users can register to access the application"
-            + " and log in to obtain authentication tokens. "
+        + " and log in to obtain authentication tokens. "
         + "These endpoints are public and do not require authentication."
 )
 public class AuthenticationController {
+
     private final UserService userService;
     private final AuthenticationService authenticationService;
 

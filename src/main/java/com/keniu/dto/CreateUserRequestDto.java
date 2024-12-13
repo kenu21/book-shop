@@ -8,6 +8,7 @@ import lombok.Data;
 @FieldMatch(first = "password", second = "repeatPassword", message = "Passwords must match")
 @Data
 public class CreateUserRequestDto {
+
     @NotBlank
     @Size(min = 6, max = 255)
     private String email;

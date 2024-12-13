@@ -27,10 +27,11 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(
         name = "Book Management",
         description = "This section provides endpoints for managing books in the system. "
-            + "Admins can create, update, or delete books,"
-            + " while all authenticated users can view book information."
+        + "Admins can create, update, or delete books,"
+        + " while all authenticated users can view book information."
 )
 public class BookController {
+
     private final BookService bookService;
 
     @Operation(summary = "Find all books")

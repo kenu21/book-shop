@@ -34,6 +34,7 @@ import org.springframework.web.bind.annotation.RestController;
         + "Admins can manage all categories."
 )
 public class CategoryController {
+
     private final CategoryService categoryService;
     private final BookService bookService;
 

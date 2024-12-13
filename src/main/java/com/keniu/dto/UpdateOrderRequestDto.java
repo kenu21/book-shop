@@ -6,6 +6,7 @@ import lombok.Data;
 
 @Data
 public class UpdateOrderRequestDto {
+
     @NotNull
     private Status status;
 }

@@ -32,11 +32,12 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(
         name = "Order Management",
         description = "This section provides endpoints for managing customer orders. "
-            + "You can create new orders, update existing ones, retrieve order details, "
-            + "and view items within orders. Access is controlled based on user roles. "
-            + "Admins can manage all orders."
+        + "You can create new orders, update existing ones, retrieve order details, "
+        + "and view items within orders. Access is controlled based on user roles. "
+        + "Admins can manage all orders."
 )
 public class OrderController {
+
     private final OrderService orderService;
     private final OrderItemService orderItemService;
 
