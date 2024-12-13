@@ -2,7 +2,6 @@ package com.keniu.services;
 
 import com.keniu.dto.CreateOrderRequestDto;
 import com.keniu.dto.OrderDto;
-import com.keniu.dto.OrderItemDto;
 import com.keniu.dto.UpdateOrderRequestDto;
 import com.keniu.exceptions.EmptyShoppingCartException;
 import com.keniu.exceptions.EntityNotFoundException;
@@ -20,7 +19,6 @@ import jakarta.transaction.Transactional;
 import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -28,18 +26,21 @@ import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
 @Service
-@Transactional
 public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
     private final OrderMapper orderMapper;
     private final OrderItemMapper orderItemMapper;
     private final ShoppingCartRepository shoppingCartRepository;
+    private final ShoppingCartService shoppingCartService;
 
     @Override
+    @Transactional
     public OrderDto save(User user, CreateOrderRequestDto createOrderRequestDto) {
         Order order = createOrderFromDto(createOrderRequestDto, user);
-        return orderMapper.toDto(orderRepository.save(order));
+        OrderDto orderDto = orderMapper.toDto(orderRepository.save(order));
+        shoppingCartService.clean(user.getId());
+        return orderDto;
     }
 
     @Override
@@ -55,23 +56,6 @@ public class OrderServiceImpl implements OrderService {
         return orderMapper.toDto(orderRepository.save(order));
     }
 
-    public Set<OrderItemDto> findItemsForOrder(Long id) {
-        Order order = findOrderById(id);
-        return order.getOrderItems().stream()
-            .map(orderItemMapper::toDto)
-            .collect(Collectors.toSet());
-    }
-
-    @Override
-    public OrderItemDto findItemForOrder(Long orderId, Long itemId) {
-        Order order = findOrderById(orderId);
-        return order.getOrderItems().stream()
-            .filter(item -> item.getId().equals(itemId))
-            .map(orderItemMapper::toDto)
-            .findFirst()
-            .orElseThrow(() -> new EntityNotFoundException("Can't find item by id " + itemId));
-    }
-
     private Order createOrderFromDto(CreateOrderRequestDto createOrderRequestDto, User user) {
         Order order = orderMapper.toModel(createOrderRequestDto);
         order.setUser(user);
@@ -79,7 +63,6 @@ public class OrderServiceImpl implements OrderService {
         ShoppingCart shoppingCart = findShoppingCartByUser(user);
         Set<OrderItem> orderItems = createOrderItems(shoppingCart, order);
         BigDecimal total = calculateTotal(orderItems);
-
         order.setOrderItems(orderItems);
         order.setTotal(total);
         return order;

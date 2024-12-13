@@ -22,16 +22,13 @@ public class FieldMatchValidator implements ConstraintValidator<FieldMatch, Obje
     public boolean isValid(Object value, ConstraintValidatorContext context) {
         Object firstValue = new BeanWrapperImpl(value).getPropertyValue(firstFieldName);
         Object secondValue = new BeanWrapperImpl(value).getPropertyValue(secondFieldName);
-
         boolean isValid = Objects.equals(firstValue, secondValue);
-
         if (!isValid) {
             context.disableDefaultConstraintViolation();
             context.buildConstraintViolationWithTemplate(message)
-                    .addPropertyNode(secondFieldName)
+                .addPropertyNode(secondFieldName)
                     .addConstraintViolation();
         }
-
         return isValid;
     }
 }

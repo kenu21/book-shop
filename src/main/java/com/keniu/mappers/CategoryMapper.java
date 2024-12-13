@@ -6,6 +6,7 @@ import com.keniu.dto.CreateCategoryRequestDto;
 import com.keniu.models.Category;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 
 @Mapper(config = MapperConfig.class)
 public interface CategoryMapper {
@@ -15,4 +16,10 @@ public interface CategoryMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "isDeleted", expression = "java(false)")
     Category toModel(CreateCategoryRequestDto createCategoryRequestDto);
+
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "isDeleted", ignore = true)
+    void updateCategoryFromDto(
+            CreateCategoryRequestDto createCategoryRequestDto,
+            @MappingTarget Category category);
 }

@@ -6,14 +6,16 @@ import com.keniu.dto.UpdateCarItemRequestDto;
 import com.keniu.models.ShoppingCart;
 
 public interface ShoppingCartService {
-    
-    ShoppingCart save(ShoppingCart shoppingCart);
-    
+
+    ShoppingCartDto save(ShoppingCart shoppingCart);
+
     ShoppingCartDto getShoppingCart(Long userId);
-    
+
     ShoppingCartDto addCartItem(Long userId, CreateCartItemRequestDto createCartItemRequestDto);
-    
+
     ShoppingCartDto update(Long userId, Long id, UpdateCarItemRequestDto updateCarItemRequestDto);
-    
+
     ShoppingCartDto delete(Long userId, Long id);
+
+    void clean(Long userId);
 }

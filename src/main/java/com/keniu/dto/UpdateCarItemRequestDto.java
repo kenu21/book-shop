@@ -5,6 +5,7 @@ import lombok.Data;
 
 @Data
 public class UpdateCarItemRequestDto {
+
     @Positive
     private int quantity;
 }

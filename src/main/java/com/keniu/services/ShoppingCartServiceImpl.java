@@ -8,38 +8,38 @@ import com.keniu.mappers.ShoppingCartMapper;
 import com.keniu.models.Book;
 import com.keniu.models.CartItem;
 import com.keniu.models.ShoppingCart;
+import com.keniu.repositories.BookRepository;
 import com.keniu.repositories.ShoppingCartRepository;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class ShoppingCartServiceImpl implements ShoppingCartService {
+
     private final ShoppingCartRepository shoppingCartRepository;
+    private final BookRepository bookRepository;
     private final ShoppingCartMapper shoppingCartMapper;
 
     @Override
-    @Transactional
-    public ShoppingCart save(ShoppingCart shoppingCart) {
-        return shoppingCartRepository.save(shoppingCart);
+    public ShoppingCartDto save(ShoppingCart shoppingCart) {
+        return shoppingCartMapper.toDto(shoppingCartRepository.save(shoppingCart));
     }
 
     @Override
     public ShoppingCartDto getShoppingCart(Long userId) {
-        ShoppingCart shoppingCart = getShoppingCartByUserId(userId);
-        return shoppingCartMapper.toDto(shoppingCart);
+        return shoppingCartMapper.toDto(getShoppingCartByUserId(userId));
     }
 
     @Override
-    @Transactional
     public ShoppingCartDto addCartItem(Long userId,
             CreateCartItemRequestDto createCartItemRequestDto) {
         ShoppingCart shoppingCart = getShoppingCartByUserId(userId);
         CartItem cartItem = new CartItem();
         cartItem.setShoppingCart(shoppingCart);
-        Book book = new Book();
-        book.setId(createCartItemRequestDto.getBookId());
+        Book book = bookRepository.findById(createCartItemRequestDto.getBookId())
+                .orElseThrow(() -> new EntityNotFoundException("Can't find book by id "
+                + createCartItemRequestDto.getBookId()));
         cartItem.setBook(book);
         cartItem.setQuantity(createCartItemRequestDto.getQuantity());
         shoppingCart.getCartItems().add(cartItem);
@@ -48,7 +48,6 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     }
 
     @Override
-    @Transactional
     public ShoppingCartDto update(Long userId, Long id,
             UpdateCarItemRequestDto updateCarItemRequestDto) {
         ShoppingCart shoppingCart = getShoppingCartByUserId(userId);
@@ -59,7 +58,6 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     }
 
     @Override
-    @Transactional
     public ShoppingCartDto delete(Long userId, Long id) {
         ShoppingCart shoppingCart = getShoppingCartByUserId(userId);
         CartItem cartItem = getCartItemById(shoppingCart, id);
@@ -67,6 +65,13 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         shoppingCart.getCartItems().remove(cartItem);
         shoppingCartRepository.save(shoppingCart);
         return shoppingCartMapper.toDto(shoppingCart);
+    }
+
+    @Override
+    public void clean(Long userId) {
+        ShoppingCart shoppingCart = getShoppingCartByUserId(userId);
+        shoppingCart.getCartItems().forEach(cartItem -> cartItem.setIsDeleted(true));
+        shoppingCartRepository.save(shoppingCart);
     }
 
     private ShoppingCart getShoppingCartByUserId(Long userId) {

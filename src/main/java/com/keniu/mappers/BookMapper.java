@@ -11,6 +11,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 import org.mapstruct.Named;
 
 @Mapper(config = MapperConfig.class)
@@ -51,4 +52,11 @@ public interface BookMapper {
             })
             .collect(Collectors.toSet());
     }
+
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "isDeleted", ignore = true)
+    @Mapping(target = "categories", ignore = true)
+    void updateBookFromDto(
+            CreateBookRequestDto createBookRequestDto,
+            @MappingTarget Book book);
 }
