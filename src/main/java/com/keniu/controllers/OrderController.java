@@ -5,6 +5,7 @@ import com.keniu.dto.OrderDto;
 import com.keniu.dto.OrderItemDto;
 import com.keniu.dto.UpdateOrderRequestDto;
 import com.keniu.models.User;
+import com.keniu.services.OrderItemService;
 import com.keniu.services.OrderService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -37,6 +38,7 @@ import org.springframework.web.bind.annotation.RestController;
 )
 public class OrderController {
     private final OrderService orderService;
+    private final OrderItemService orderItemService;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -67,7 +69,7 @@ public class OrderController {
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @Operation(summary = "getItemsForOrder")
     public Set<OrderItemDto> getItemsForOrder(@PathVariable Long id) {
-        return orderService.findItemsForOrder(id);
+        return orderItemService.findItemsForOrder(id);
     }
 
     @GetMapping("/{orderId}/items/{itemId}")
@@ -76,6 +78,6 @@ public class OrderController {
     public OrderItemDto getItemsForOrder(
             @PathVariable Long orderId,
             @PathVariable Long itemId) {
-        return orderService.findItemForOrder(orderId, itemId);
+        return orderItemService.findItemForOrder(orderId, itemId);
     }
 }

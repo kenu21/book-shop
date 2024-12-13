@@ -2,7 +2,6 @@ package com.keniu.services;
 
 import com.keniu.dto.CreateOrderRequestDto;
 import com.keniu.dto.OrderDto;
-import com.keniu.dto.OrderItemDto;
 import com.keniu.dto.UpdateOrderRequestDto;
 import com.keniu.exceptions.EmptyShoppingCartException;
 import com.keniu.exceptions.EntityNotFoundException;
@@ -19,7 +18,6 @@ import com.keniu.repositories.ShoppingCartRepository;
 import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -51,23 +49,6 @@ public class OrderServiceImpl implements OrderService {
         Order order = findOrderById(id);
         orderMapper.updateOrderFromDto(updateOrderRequestDto, order);
         return orderMapper.toDto(orderRepository.save(order));
-    }
-
-    public Set<OrderItemDto> findItemsForOrder(Long id) {
-        Order order = findOrderById(id);
-        return order.getOrderItems().stream()
-            .map(orderItemMapper::toDto)
-            .collect(Collectors.toSet());
-    }
-
-    @Override
-    public OrderItemDto findItemForOrder(Long orderId, Long itemId) {
-        Order order = findOrderById(orderId);
-        return order.getOrderItems().stream()
-            .filter(item -> item.getId().equals(itemId))
-            .map(orderItemMapper::toDto)
-            .findFirst()
-            .orElseThrow(() -> new EntityNotFoundException("Can't find item by id " + itemId));
     }
 
     private Order createOrderFromDto(CreateOrderRequestDto createOrderRequestDto, User user) {
