@@ -15,6 +15,7 @@ import com.keniu.models.Status;
 import com.keniu.models.User;
 import com.keniu.repositories.OrderRepository;
 import com.keniu.repositories.ShoppingCartRepository;
+import jakarta.transaction.Transactional;
 import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
@@ -31,11 +32,15 @@ public class OrderServiceImpl implements OrderService {
     private final OrderMapper orderMapper;
     private final OrderItemMapper orderItemMapper;
     private final ShoppingCartRepository shoppingCartRepository;
+    private final ShoppingCartService shoppingCartService;
 
     @Override
+    @Transactional
     public OrderDto save(User user, CreateOrderRequestDto createOrderRequestDto) {
         Order order = createOrderFromDto(createOrderRequestDto, user);
-        return orderMapper.toDto(orderRepository.save(order));
+        OrderDto orderDto = orderMapper.toDto(orderRepository.save(order));
+        shoppingCartService.clean(user.getId());
+        return orderDto;
     }
 
     @Override
@@ -58,7 +63,6 @@ public class OrderServiceImpl implements OrderService {
         ShoppingCart shoppingCart = findShoppingCartByUser(user);
         Set<OrderItem> orderItems = createOrderItems(shoppingCart, order);
         BigDecimal total = calculateTotal(orderItems);
-
         order.setOrderItems(orderItems);
         order.setTotal(total);
         return order;
