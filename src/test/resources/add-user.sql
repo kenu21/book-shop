@@ -5,5 +5,5 @@ VALUES (2, 'test2@example.com', "$2a$10$KmppU3ONvsZbOYfdfLvUU.bHPAgAZk6G7U8m9.O2
 INSERT INTO users_roles (user_id, role_id)
 VALUES (2, 1);
 
-INSERT INTO shopping_carts (id, user_id, is_deleted)
-VALUES (1, 2, 0);
+INSERT INTO shopping_carts (user_id, is_deleted)
+VALUES (2, 0);
