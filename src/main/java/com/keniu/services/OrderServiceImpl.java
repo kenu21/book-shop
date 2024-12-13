@@ -16,7 +16,6 @@ import com.keniu.models.Status;
 import com.keniu.models.User;
 import com.keniu.repositories.OrderRepository;
 import com.keniu.repositories.ShoppingCartRepository;
-import jakarta.transaction.Transactional;
 import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
@@ -28,7 +27,6 @@ import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
 @Service
-@Transactional
 public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
