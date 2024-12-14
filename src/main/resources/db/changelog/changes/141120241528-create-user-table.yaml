@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: 2
+      id: 141120241528-create-user-table.yaml
       author: Yurii Keniu
       changes:
         - createTable:

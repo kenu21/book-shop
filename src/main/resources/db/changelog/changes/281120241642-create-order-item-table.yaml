@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: 10
+      id: 281120241642-create-order-item-table.yaml
       author: Yurii Keniu
       changes:
         - createTable:

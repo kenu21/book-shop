@@ -137,9 +137,9 @@ class CategoryControllerTest extends BaseIntegrationTest {
     void getBooksByCategoryId_shouldReturnBooks() throws Exception {
         mockMvc.perform(get("/categories/1/books")
                 .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.content[0].id").value("1"))
-                .andExpect(jsonPath("$.content[0].title").value("Test Book"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.content[0].id").value("1"))
+            .andExpect(jsonPath("$.content[0].title").value("Test Book"))
                 .andExpect(jsonPath("$.content[0].author").value("Author1"));
     }
 }

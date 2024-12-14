@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: 1
+      id: 081120241623-create-book-table.yaml
       author: Yurii Keniu
       changes:
         - createTable:

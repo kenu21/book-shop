@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: 9
+      id: 231120241608-create-shopping-cart-table.yaml
       author: Yurii Keniu
       changes:
         - createTable:
