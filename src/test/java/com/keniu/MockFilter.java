@@ -17,10 +17,12 @@ public class MockFilter extends OncePerRequestFilter {
             HttpServletRequest request,
             HttpServletResponse response,
             FilterChain filterChain)
-                throws ServletException, IOException {
+            throws ServletException, IOException {
         filterChain.doFilter(request, response);
     }
 
-    public void getFilters(MockHttpServletRequest mockHttpServletRequest) {
+    public void getFilters(
+            MockHttpServletRequest mockHttpServletRequest
+    ) { // Required for test environment compatibility
     }
 }

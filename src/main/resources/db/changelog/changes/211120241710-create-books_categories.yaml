@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: 7
+      id: 211120241710-create-books_categories.yaml
       author: Yurii Keniu
       changes:
         - createTable:

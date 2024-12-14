@@ -67,12 +67,12 @@ class ShoppingCartControllerTest extends BaseIntegrationTest {
     void getShoppingCart_shouldReturnCart() throws Exception {
         mockMvc.perform(get("/cart")
                 .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.userId").value("2"))
-                .andExpect(jsonPath("$.cartItems[0].id").value("1"))
-                .andExpect(jsonPath("$.cartItems[0].bookId").value("1"))
-                .andExpect(jsonPath("$.cartItems[0].bookTitle")
-                    .value("Test Book"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.userId").value("2"))
+            .andExpect(jsonPath("$.cartItems[0].id").value("1"))
+            .andExpect(jsonPath("$.cartItems[0].bookId").value("1"))
+            .andExpect(jsonPath("$.cartItems[0].bookTitle")
+                .value("Test Book"))
                 .andExpect(jsonPath("$.cartItems[0].quantity").value(4));
     }
 
@@ -88,7 +88,7 @@ class ShoppingCartControllerTest extends BaseIntegrationTest {
         mockMvc.perform(post("/cart")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(requestDto)))
-                .andExpect(status().isCreated())
+            .andExpect(status().isCreated())
             .andExpect(jsonPath("$.userId").value("2"))
             .andExpect(jsonPath("$.cartItems[0].id").exists())
             .andExpect(jsonPath("$.cartItems[0].bookId").value("1"))
@@ -112,8 +112,8 @@ class ShoppingCartControllerTest extends BaseIntegrationTest {
         mockMvc.perform(put("/cart/items/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(requestDto)))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.userId").value("2"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.userId").value("2"))
             .andExpect(jsonPath("$.cartItems[0].id").value("1"))
             .andExpect(jsonPath("$.cartItems[0].bookId").value("1"))
             .andExpect(jsonPath("$.cartItems[0].bookTitle")
@@ -131,8 +131,8 @@ class ShoppingCartControllerTest extends BaseIntegrationTest {
     @Sql(scripts = "classpath:cleanup.sql", executionPhase = ExecutionPhase.AFTER_TEST_METHOD)
     void deleteCartItem_shouldRemoveItemFromCart() throws Exception {
         mockMvc.perform(delete("/cart/items/1"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.userId").value("2"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.userId").value("2"))
                 .andExpect(jsonPath("$.cartItems").isEmpty());
     }
 }

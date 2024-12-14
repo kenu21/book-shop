@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: 6
+      id: 211120241703-create-category-table.yaml
       author: Yurii Keniu
       changes:
         - createTable:

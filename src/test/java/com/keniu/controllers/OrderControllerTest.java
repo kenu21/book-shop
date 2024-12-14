@@ -32,6 +32,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 @SpringBootTest
 class OrderControllerTest extends BaseIntegrationTest {
+
     private MockMvc mockMvc;
 
     @Autowired
@@ -67,14 +68,14 @@ class OrderControllerTest extends BaseIntegrationTest {
     void getOrders_shouldReturnOrders() throws Exception {
         mockMvc.perform(get("/orders")
                 .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.content[0].id").value("1"))
-                .andExpect(jsonPath("$.content[0].userId").value("2"))
-                .andExpect(jsonPath("$.content[0].orderItems[0].id").value("1"))
-                .andExpect(jsonPath("$.content[0].orderItems[0].bookId").value("1"))
-                .andExpect(jsonPath("$.content[0].orderItems[0].quantity").value("4"))
-                .andExpect(jsonPath("$.content[0].orderDate").exists())
-                .andExpect(jsonPath("$.content[0].total").value(100.00))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.content[0].id").value("1"))
+            .andExpect(jsonPath("$.content[0].userId").value("2"))
+            .andExpect(jsonPath("$.content[0].orderItems[0].id").value("1"))
+            .andExpect(jsonPath("$.content[0].orderItems[0].bookId").value("1"))
+            .andExpect(jsonPath("$.content[0].orderItems[0].quantity").value("4"))
+            .andExpect(jsonPath("$.content[0].orderDate").exists())
+            .andExpect(jsonPath("$.content[0].total").value(100.00))
                 .andExpect(jsonPath("$.content[0].status").value("PENDING"));
     }
 
@@ -93,14 +94,14 @@ class OrderControllerTest extends BaseIntegrationTest {
         mockMvc.perform(post("/orders")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(createOrderRequestDto)))
-                .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.id").exists())
-                .andExpect(jsonPath("$.userId").value("2"))
-                .andExpect(jsonPath("$.orderItems[0].id").exists())
-                .andExpect(jsonPath("$.orderItems[0].bookId").value("1"))
-                .andExpect(jsonPath("$.orderItems[0].quantity").value("4"))
-                .andExpect(jsonPath("$.orderDate").exists())
-                .andExpect(jsonPath("$.total").value(100.00))
+            .andExpect(status().isCreated())
+            .andExpect(jsonPath("$.id").exists())
+            .andExpect(jsonPath("$.userId").value("2"))
+            .andExpect(jsonPath("$.orderItems[0].id").exists())
+            .andExpect(jsonPath("$.orderItems[0].bookId").value("1"))
+            .andExpect(jsonPath("$.orderItems[0].quantity").value("4"))
+            .andExpect(jsonPath("$.orderDate").exists())
+            .andExpect(jsonPath("$.total").value(100.00))
                 .andExpect(jsonPath("$.status").value("PENDING"));
     }
 
@@ -120,14 +121,14 @@ class OrderControllerTest extends BaseIntegrationTest {
         mockMvc.perform(patch("/orders/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(updateOrderRequestDto)))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value("1"))
-                .andExpect(jsonPath("$.userId").value("2"))
-                .andExpect(jsonPath("$.orderItems[0].id").value("1"))
-                .andExpect(jsonPath("$.orderItems[0].bookId").value("1"))
-                .andExpect(jsonPath("$.orderItems[0].quantity").value("4"))
-                .andExpect(jsonPath("$.orderDate").exists())
-                .andExpect(jsonPath("$.total").value(100.00))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.id").value("1"))
+            .andExpect(jsonPath("$.userId").value("2"))
+            .andExpect(jsonPath("$.orderItems[0].id").value("1"))
+            .andExpect(jsonPath("$.orderItems[0].bookId").value("1"))
+            .andExpect(jsonPath("$.orderItems[0].quantity").value("4"))
+            .andExpect(jsonPath("$.orderDate").exists())
+            .andExpect(jsonPath("$.total").value(100.00))
                 .andExpect(jsonPath("$.status").value("COMPLETED"));
     }
 
@@ -143,9 +144,9 @@ class OrderControllerTest extends BaseIntegrationTest {
     void getItemsForOrder_shouldReturnOrderItems() throws Exception {
         mockMvc.perform(get("/orders/1/items")
                 .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].id").value("1"))
-                .andExpect(jsonPath("$[0].bookId").value("1"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$[0].id").value("1"))
+            .andExpect(jsonPath("$[0].bookId").value("1"))
                 .andExpect(jsonPath("$[0].quantity").value(4));
     }
 
@@ -161,9 +162,9 @@ class OrderControllerTest extends BaseIntegrationTest {
     void getItemForOrder_shouldReturnSpecificOrderItem() throws Exception {
         mockMvc.perform(get("/orders/1/items/1")
                 .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value("1"))
-                .andExpect(jsonPath("$.bookId").value("1"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.id").value("1"))
+            .andExpect(jsonPath("$.bookId").value("1"))
                 .andExpect(jsonPath("$.quantity").value(4));
     }
 }

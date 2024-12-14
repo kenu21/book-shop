@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: 3
+      id: 151120241735-create-role-table.yaml
       author: Yurii Keniu
       changes:
         - createTable:

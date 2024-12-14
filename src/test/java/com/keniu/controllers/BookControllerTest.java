@@ -27,6 +27,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 @SpringBootTest
 class BookControllerTest extends BaseIntegrationTest {
+
     private MockMvc mockMvc;
 
     @Autowired
@@ -51,21 +52,21 @@ class BookControllerTest extends BaseIntegrationTest {
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.content[0].id")
-                    .value("1"))
+                .value("1"))
                 .andExpect(jsonPath("$.content[0].title")
-                    .value("Test Book"))
+                .value("Test Book"))
                 .andExpect(jsonPath("$.content[0].author")
-                    .value("Author1"))
+                .value("Author1"))
                 .andExpect(jsonPath("$.content[0].isbn")
-                    .value("123-4567890123"))
+                .value("123-4567890123"))
                 .andExpect(jsonPath("$.content[0].price")
-                    .value(25))
+                .value(25))
                 .andExpect(jsonPath("$.content[0].description")
-                    .value("Description1"))
+                .value("Description1"))
                 .andExpect(jsonPath("$.content[0].categoryIds[0]")
-                    .value("1"))
+                .value("1"))
                 .andExpect(jsonPath("$.content[0].coverImage")
-                    .value("cover1.jpg"));
+                .value("cover1.jpg"));
     }
 
     @Test

@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: 8
+      id: 231120241610-create-cart-item-table.yaml
       author: Yurii Keniu
       changes:
         - createTable:
